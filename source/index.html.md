@@ -19,118 +19,210 @@ search: true
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the DataGrid documentation!
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+DataGrid uses JSX syntax, react toolbox lib for buttons and lodash for data manipulation.
 
-This example API documentation page was created with [Slate](https://github.com/lord/slate). Feel free to edit it and use it as a base for your own API's documentation.
+You can use DataGrid as server side or frontend side processing.
 
-# Authentication
+# Initialization
 
-> To authorize, use this code:
+> To initialize DataGird, use this code as example (bServerSide: false):
 
 ```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
 ```
 
 ```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
 ```
 
 ```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
 ```
 
 ```javascript
-const kittn = require('kittn');
+import DataGrid from '[pathToConstants]/DataGridNew'
+import { ENTITY_NAMES } from '[pathToConstants]/constants';
+import { DATA_GRID_ACTION_TYPE, DATA_GRID_COLUMN_TYPES } from '[pathToConstants]/DataGridNew/dataGridConstants';
+constructor(props) {
+    super(props);
+    this.sEntityIdName = 'stocks';
+    this.sEntityId = ENTITY_NAMES.STOCKS;
 
-let api = kittn.authorize('meowmeowmeow');
+    this.columns = [
+      {
+        sName: 'product_name',
+        label: i18nMessage('stock.grid.productName'),
+        bSearchable: true,
+        bSortable: true,
+        type: DATA_GRID_COLUMN_TYPES.string,
+      },
+      {
+        sName: 'product_sku',
+        label: i18nMessage('stock.grid.productSku'),
+        bSearchable: true,
+        bSortable: true,
+        sortOption: { numeric: true },
+        type: DATA_GRID_COLUMN_TYPES.string,
+      },
+      {
+        sName: 'location_code',
+        label: i18nMessage('stock.grid.locationCode'),
+        bSearchable: true,
+        bSortable: true,
+        type: DATA_GRID_COLUMN_TYPES.string,
+      },
+      {
+        sName: 'quantity',
+        label: i18nMessage('stock.grid.quantity'),
+        bSortable: true,
+        sortOption: { numeric: true },
+        type: DATA_GRID_COLUMN_TYPES.string,
+      },
+    ];
+    this.dataGridOptions = {
+      bServerSide: false,
+      rowId: 'id',
+      sEntityName: i18nMessage('navigation.stocks.stocksAll'),
+      sEntityId: this.sEntityId,
+      sEntityIdName: this.sEntityIdName,
+      bPagination: true,
+      onTableChange: this.onTableChange,
+    };
+  }
 ```
 
-> Make sure to replace `meowmeowmeow` with your API key.
+> Make sure to replace `sEntityIdName`, `sEntityIdName` with proper values.
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
+Minimal requirements.
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+Make sure to replace `sEntityIdName`, `sEntityIdName` with proper values.
 </aside>
 
-# Kittens
+# DataGrid props and options
 
-## Get All Kittens
+## Props
 
 ```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
 ```
 
 ```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
 ```
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
 ```
+
+> List of all dataGrid options:
 
 ```javascript
-const kittn = require('kittn');
+static propTypes = {
+    options: PropTypes.shape( shapeTypes: {...}),
+    columns: PropTypes.arrayOf(PropTypes.object).isRequired,
+          data: ImmutablePropTypes.list.isRequired,
+          totalResults: PropTypes.number.isRequired,
+          styleType: PropTypes.number,
+          loading: PropTypes.bool,
+          bResetSearchFilters: PropTypes.bool,
+          bResetPage: PropTypes.bool,
+          fabConfig: PropTypes.object,
+    };
+```
+List of all dataGrid props.
 
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
+Prop | Type | Description
+--------- | ------- | -----------
+options | shape | Collection of options .
+columns | arrayOf(PropTypes.object) | Array of column objects
+data | ImmutablePropTypes.list | Immutable data list
+totalResults | number | Total data count
+styleType | number | Use one of data grid built in styles
+loading | boolean | Is data loading
+bResetSearchFilters | boolean | Trigger reset table search filters
+bResetPage | boolean | Trigger reset table page
+fabConfig | object | Used for trigger show form
+
+## All Options
+
+```ruby
 ```
 
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+```python
 ```
 
-This endpoint retrieves all kittens.
+```shell
+```
+
+> List of all dataGrid options:
+
+```javascript
+options: PropTypes.shape({
+      rowId: PropTypes.string.isRequired,
+      bMultipleSelect: PropTypes.bool,
+      bCheckAble: PropTypes.bool,
+      bCheckAbleDisabled: PropTypes.bool,
+      bServerSide: PropTypes.bool,
+      bPagination: PropTypes.bool,
+      bInfo: PropTypes.bool,
+      bLengthMenu: PropTypes.bool,
+      sEntityName: PropTypes.string,
+      sEntityId: PropTypes.number,
+      sEntityIdName: PropTypes.string,
+      language: PropTypes.object,
+      languageCode: PropTypes.string,
+      rowsPerPage: PropTypes.number,
+      lengthMenu: PropTypes.arrayOf(PropTypes.object),
+      onRowSelected: PropTypes.func,
+      onRowSelectedId: PropTypes.func,
+      onRowClick: PropTypes.func,
+      selectedRow: PropTypes.string,
+      selectedRows: PropTypes.array,
+      selectedRowsIds: PropTypes.array,
+      onTableChange: PropTypes.func,
+      menuOptions: PropTypes.array,
+      menuOptionsSelected: PropTypes.func,
+      menuOptionsDisabled: PropTypes.func,
+      count: PropTypes.number,
+    })
+```
+
+List of all dataGrid options.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET http://pulpo.co`
 
-### Query Parameters
+### Options
 
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+Option | Type | Default | Description
+--------- | ------- | ------- | -----------
+rowId | number or string | rowId | Identify row id property .
+bCheckAble | boolean | false | If set to false, table won't have checkbox column
+bCheckAbleDisabled | boolean | false | If set to true, check box will be disabled
+bServerSide | boolean | true | If set to true dataGrid will receive and fetch data from server on each change
+bPagination | boolean | true | pagination show on/off
+bInfo | boolean | true | info text show on/off
+bFooter | boolean | true | Footer show on/off
+bLengthMenu | boolean | false | Show length menu selector
+bSelectFirst | boolean | false | Select first row when DataGrid data loaded
+sEntityName | string | '' | Set entity name
+sEntityId | number | null | Set entity id
+sEntityIdName | string | '' | Set entity id name
+rowsPerPage | number | 20 | Number or rows displayed
+lengthMenu | array | DATA_GRID_DEFAULT_DISPLAY_LENGTH_MENU | Display length menu selector
+onRowSelected | function | null | Function
+onRowSelectedId | function | null | Function
+onRowClick | function | null | Function
+selectedRow | string | '' | Selected row id
+selectedRows | immutable list | null | Selected rows immutable list
+selectedRowsIds | array| null | Selected rows ids array
+onTableChange | function| null | Connect this function to get dataGrid changes
+menuOptions | array | null | Provide menu options
+menuOptionsSelected | function | null | Provide menu options callback function
+menuOptionsDisabled | function | null | provide a function to disable menu on some rows
+
+
 
 <aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+Remember — check browser console to see which options you need to pass. DataGrid will throw an error or warning in console!
 </aside>
 
 ## Get a Specific Kitten
