@@ -87,7 +87,15 @@ constructor(props) {
       bPagination: true,
       onTableChange: this.onTableChange,
     };
-  }
+  };
+<DataGrid
+    columns={this.columns}
+    data={rows}
+    options={_options}
+    loading={stocksData.get('rowsLoading')}
+    totalResults={totalResults}
+    sEntityId={this.sEntityId}
+  />
 ```
 
 > Make sure to replace `sEntityIdName`, `sEntityIdName` with proper values.
