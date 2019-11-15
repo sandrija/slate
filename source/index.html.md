@@ -2,9 +2,6 @@
 title: API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - shell
-  - ruby
-  - python
   - javascript
 
 toc_footers:
@@ -28,15 +25,6 @@ You can use DataGrid as server side or frontend side processing.
 # Initialization
 
 > To initialize DataGird, use this code as example (bServerSide: false):
-
-```ruby
-```
-
-```python
-```
-
-```shell
-```
 
 ```javascript
 import DataGrid from '[pathToConstants]/DataGridNew'
@@ -233,49 +221,18 @@ menuOptionsDisabled | function | null | provide a function to disable menu on so
 Remember — check browser console to see which options you need to pass. DataGrid will throw an error or warning in console!
 </aside>
 
-## Get a Specific Kitten
+## Data Grid server side example
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
+> Import commands:
 
 ```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
+import DataGrid from '[pathToConstants]/DataGridNew'
+import { ENTITY_NAMES } from '[pathToConstants]/constants';
+import { DATA_GRID_ACTION_TYPE, DATA_GRID_COLUMN_TYPES } from '[pathToConstants]/DataGridNew/dataGridConstants';
 ```
+> Deine columns and da:
 
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
-```
-
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+This example will be present with Sales order functionality.
 
 ### HTTP Request
 
