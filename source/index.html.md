@@ -4,12 +4,6 @@ title: API Reference
 language_tabs: # must be one of https://git.io/vQNgJ
   - javascript
 
-toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/lord/slate'>Documentation Powered by Slate</a>
-
-includes:
-  - errors
 
 search: true
 ---
@@ -182,10 +176,6 @@ options: PropTypes.shape({
 
 List of all dataGrid options.
 
-### HTTP Request
-
-`GET http://pulpo.co`
-
 ### Options
 
 Option | Type | Default | Description
@@ -230,67 +220,157 @@ import DataGrid from '[pathToConstants]/DataGridNew'
 import { ENTITY_NAMES } from '[pathToConstants]/constants';
 import { DATA_GRID_ACTION_TYPE, DATA_GRID_COLUMN_TYPES } from '[pathToConstants]/DataGridNew/dataGridConstants';
 ```
-> Deine columns and da:
-
-This example will be present with Sales order functionality.
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
-
-## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -X DELETE
-  -H "Authorization: meowmeowmeow"
-```
+> Define columns and dataGrid options:
 
 ```javascript
-const kittn = require('kittn');
+constructor(props) {
+    super(props);
+    this.sEntityIdName = 'sales_orders';
+    this.sEntityId = ENTITY_NAMES.SALES_ORDERS;
+    this.columns = [
+      {
+        sName: 'order_num',
+        label: i18nMessage('salesOrders.field.order_num'),
+        bSearchable: true,
+        bSortable: true,
+        type: DATA_GRID_COLUMN_TYPES.string,
+      },
+      {
+        sName: 'third_party',
+        getValue: 'name',
+        label: i18nMessage('salesOrders.field.client'),
+        bSearchable: true,
+        bSortable: true,
+        type: DATA_GRID_COLUMN_TYPES.object,
+      },
+      {
+        sName: 'criterium',
+        label: 'Criterium',
+        bSearchable: true,
+        type: DATA_GRID_COLUMN_TYPES.string,
+      },
+      {
+        sName: 'state',
+        label: i18nMessage('salesOrders.field.state'),
+        type: DATA_GRID_COLUMN_TYPES.statusLabel,
+        bSortable: true,
 
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
+      },
+      {
+        sName: 'priority',
+        label: i18nMessage('salesOrders.field.priority'),
+        type: DATA_GRID_COLUMN_TYPES.priorityIndicator,
+        bSortable: true,
+
+      },
+      {
+        sName: 'inserted_at',
+        label: i18nMessage('salesOrders.field.duration'),
+        type: DATA_GRID_COLUMN_TYPES.durationLabel,
+      },
+    ];
+
+    this.dataGridOptions = {
+      bServerSide: true,
+      rowId: 'id',
+      sEntityName: i18nMessage('global.titles.outgoingOrders'), // 'Sales Orders',
+      sEntityId: ENTITY_NAMES.SALES_ORDERS,
+      sEntityIdName: this.sEntityIdName,
+      onTableChange: this.onTableChange,
+      bCheckAble: true,
+      bCheckAbleDisabled: this.isCheckEnabled,
+      bPagination: true,
+      bMenu: true,
+      bSelectFirst: false,
+      // bResetSearchFilters: false,
+      count: this.getCount(),
+      menuOptions: map(p => {
+        const caption = i18nMessage(`salesOrders.priority.set.${p.id}`);
+        return {
+          value: p.id,
+          caption,
+        };
+      })(priorities),
+      menuOptionsSelected: this.handleSetPriority,
+    };
+  }
 ```
 
-> The above command returns JSON structured like this:
+> Implement state and functions to manipulate it:
 
-```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
+```javascript
+state = 
+    viewState: Map({
+      mainCheckBoxGroupValue: ['all'],
+      status: 'queue',
+      textSearchValue: null,
+      period: {
+        startDate: null,
+        endDate: null,
+      },
+      tableQuery: null,
+    }),
+  };
+
+/**
+   * function onTableChange
+   * @param {number} action dataGrid enum
+   * @param {object} tableState dataGrid state
+   * @changes {map} this.state.viewState
+   */
+  onTableChange = (action, tableState) => {
+    const { salesOrders, fetchSalesOrders } = this.props;
+    // console.log(`onTableChange: action: ${action} tableState.`, tableState);
+    switch (action) {
+      case DATA_GRID_ACTION_TYPE.ROWS_CHECKED:
+        this.setState({ checkedID: tableState.selectedRows.dataIds }, () => this.handleEnableMultipleOrdersPickingButton());
+        break;
+      case DATA_GRID_ACTION_TYPE.CHANGE_PAGE:
+      case DATA_GRID_ACTION_TYPE.COLUMN_SEARCH:
+      case DATA_GRID_ACTION_TYPE.COLUMN_SORTING: {
+        const _tableQuery = {
+          activeColumn: tableState.activeColumn,
+          columns: tableState.columns,
+          page: tableState.page,
+          columnsSearch: tableState.columnsSearch,
+          rowsPerPage: tableState.rowsPerPage,
+        };
+        const _bResetGlobalSearchFilter = !isEmpty(_tableQuery.columnsSearch);
+        const _textSearchValue = (!_bResetGlobalSearchFilter) ? this.state.viewState.get('textSearchValue') : null;
+        const viewState = this.state.viewState.set('tableQuery', _tableQuery).set('textSearchValue', _textSearchValue);
+        this.setState({ viewState, bResetAllDataGridFilters: false, bResetGlobalSearchFilter: _bResetGlobalSearchFilter, bResetDataGridPage: false }, this.onFetchSalesOrders);
+        break;
+      }
+      case DATA_GRID_ACTION_TYPE.ROW_SELECTED:
+        this.handleOnSelectRow(tableState.selectedRow.data, tableState.selectedRow.dataId);
+        break;
+      default:
+        break;
+    }
+  };
 ```
 
-This endpoint deletes a specific kitten.
+> Call datagrid:
 
-### HTTP Request
+```javascript
+const dataGrid = (
+      <DataGrid
+        columns={this.columns}
+        data={rows}
+        options={this.dataGridOptions}
+        loading={salesOrders.get('rowsLoading')}
+        totalResults={totalResults}
+        fabConfig={{ onClick: this.handleShowCreateForm }}
+        bResetSearchFilters={this.state.viewState.get('textSearchValue') !== null || this.state.bResetAllDataGridFilters}
+        bResetPage={this.state.bResetDataGridPage}
+      />
+    );
+```
 
-`DELETE http://example.com/kittens/<ID>`
+This example will be present with Sales order functionality.
+Data grid with bServerSide requires onTableChange function to be provided, check javascript console, data grid will throw errors and warnings there.
+For example with bServerSide set to false check stocks component, 
 
-### URL Parameters
 
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
+
 
