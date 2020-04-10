@@ -196,7 +196,7 @@
   color: #f92672;
 }
     </style>
-    <link href="stylesheets/screen-a1ce949a.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/screen-a6e128e8.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print-bccf8c07.css" rel="stylesheet" media="print" />
       <script src="javascripts/all-c5541673.js"></script>
   </head>
@@ -235,6 +235,17 @@
                   </li>
                   <li>
                     <a href="#data-grid-server-side-example" class="toc-h2 toc-link" data-title="Data Grid server side example">Data Grid server side example</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#styles" class="toc-h1 toc-link" data-title="Styles">Styles</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#common" class="toc-h2 toc-link" data-title="Common">Common</a>
+                  </li>
+                  <li>
+                    <a href="#header-cell-and-body-cell-style" class="toc-h2 toc-link" data-title="Header cell and body cell style">Header cell and body cell style</a>
                   </li>
               </ul>
           </li>
@@ -738,6 +749,139 @@ Remember — check browser console to see which options you need to pass. DataGr
 <p>This example will be present with Sales order functionality.
 Data grid with bServerSide requires onTableChange function to be provided, check javascript console, data grid will throw errors and warnings there.
 For example with bServerSide set to false check stocks component, </p>
+<h1 id='styles'>Styles</h1><h2 id='common'>Common</h2>
+<blockquote>
+<p>Flex options:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="nx">flex</span><span class="p">:</span> <span class="mi">1</span><span class="p">;</span>
+<span class="nl">flex</span><span class="p">:</span> <span class="s1">'0 1 300px'</span><span class="p">,</span>
+</code></pre>
+<blockquote>
+<p>Columns example:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">export</span> <span class="kr">const</span> <span class="nx">SALES_ORDERS_DEFAULT_COLUMNS</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="p">{</span>
+    <span class="na">sName</span><span class="p">:</span> <span class="s1">'order_num'</span><span class="p">,</span>
+    <span class="na">label</span><span class="p">:</span> <span class="nx">i18nMessage</span><span class="p">(</span><span class="s1">'salesOrders.field.order_num'</span><span class="p">),</span>
+    <span class="na">bSearchable</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="na">bSortable</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="na">type</span><span class="p">:</span> <span class="nx">DATA_GRID_COLUMN_TYPES</span><span class="p">.</span><span class="nx">string</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="na">sName</span><span class="p">:</span> <span class="s1">'third_party'</span><span class="p">,</span>
+    <span class="na">getValue</span><span class="p">:</span> <span class="s1">'name'</span><span class="p">,</span>
+    <span class="na">label</span><span class="p">:</span> <span class="nx">i18nMessage</span><span class="p">(</span><span class="s1">'salesOrders.field.client'</span><span class="p">),</span>
+    <span class="na">bSearchable</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="na">bSortable</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="na">type</span><span class="p">:</span> <span class="nx">DATA_GRID_COLUMN_TYPES</span><span class="p">.</span><span class="nx">object</span><span class="p">,</span>
+    <span class="na">flex</span><span class="p">:</span> <span class="s1">'0 1 300px'</span><span class="p">,</span>
+    <span class="na">headerStyle</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">color</span><span class="p">:</span> <span class="s1">'blue'</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="na">bodyCellStyle</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">color</span><span class="p">:</span> <span class="s1">'blue'</span><span class="p">,</span>
+    <span class="p">},</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="na">sName</span><span class="p">:</span> <span class="s1">'criterium'</span><span class="p">,</span>
+    <span class="na">label</span><span class="p">:</span> <span class="s1">'Criterium'</span><span class="p">,</span>
+    <span class="na">bSearchable</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="na">type</span><span class="p">:</span> <span class="nx">DATA_GRID_COLUMN_TYPES</span><span class="p">.</span><span class="nx">string</span><span class="p">,</span>
+    <span class="na">centered</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="na">headerCellStyle</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">color</span><span class="p">:</span> <span class="s1">'green'</span><span class="p">,</span>
+      <span class="na">flex</span><span class="p">:</span> <span class="s1">'0 1 100px'</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="na">bodyCellStyle</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">color</span><span class="p">:</span> <span class="s1">'green'</span><span class="p">,</span>
+      <span class="na">flex</span><span class="p">:</span> <span class="s1">'0 1 100px'</span><span class="p">,</span>
+    <span class="p">},</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="na">sName</span><span class="p">:</span> <span class="s1">'state'</span><span class="p">,</span>
+    <span class="na">label</span><span class="p">:</span> <span class="nx">i18nMessage</span><span class="p">(</span><span class="s1">'salesOrders.field.state'</span><span class="p">),</span>
+    <span class="na">type</span><span class="p">:</span> <span class="nx">DATA_GRID_COLUMN_TYPES</span><span class="p">.</span><span class="nx">statusLabel</span><span class="p">,</span>
+    <span class="na">bSortable</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="na">sName</span><span class="p">:</span> <span class="s1">'priority'</span><span class="p">,</span>
+    <span class="na">label</span><span class="p">:</span> <span class="nx">i18nMessage</span><span class="p">(</span><span class="s1">'salesOrders.field.priority'</span><span class="p">),</span>
+    <span class="na">type</span><span class="p">:</span> <span class="nx">DATA_GRID_COLUMN_TYPES</span><span class="p">.</span><span class="nx">priorityIndicator</span><span class="p">,</span>
+    <span class="na">bSortable</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="na">sName</span><span class="p">:</span> <span class="s1">'inserted_at'</span><span class="p">,</span>
+    <span class="na">label</span><span class="p">:</span> <span class="nx">i18nMessage</span><span class="p">(</span><span class="s1">'salesOrders.field.duration'</span><span class="p">),</span>
+    <span class="na">type</span><span class="p">:</span> <span class="nx">DATA_GRID_COLUMN_TYPES</span><span class="p">.</span><span class="nx">durationLabel</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">];</span>
+</code></pre>
+<p>Flex property is common for header cell and body cell.
+<aside class="notice">
+<a href='https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Basic_Concepts_of_Flexbox' target="_blank">Read more about flex</a>
+</aside></p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>flex</td>
+<td>number or string</td>
+<td>1 or 2 or 3 or &#39;1&#39; or &#39;2&#39; or &#39;3&#39; etc...</td>
+</tr>
+<tr>
+<td>flex</td>
+<td>string</td>
+<td>&#39;0 1 300px&#39;</td>
+</tr>
+</tbody></table>
+
+<p><b>Send flex as number (or string)</b>
+flex: 1 or flex: &#39;1&#39; </br>
+will result in </br>
+   &emsp; flex: 1 1 0%; </br>
+    which is equivalent of: </br>
+   &emsp; flex-grow: 1; </br>
+   &emsp; flex-shrink: 1; </br>
+   &emsp; flex-basis: 0%; </br>
+If you want more control over width of column use second option </br>
+flex: &#39;0 1 300px&#39; </br>
+Use px instead %. </br></p>
+<h2 id='header-cell-and-body-cell-style'>Header cell and body cell style</h2>
+<blockquote>
+<p>Example:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">export</span> <span class="kr">const</span> <span class="nx">SALES_ORDERS_DEFAULT_COLUMNS</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="p">{</span>
+    <span class="na">sName</span><span class="p">:</span> <span class="s1">'criterium'</span><span class="p">,</span>
+    <span class="na">label</span><span class="p">:</span> <span class="s1">'Criterium'</span><span class="p">,</span>
+    <span class="na">bSearchable</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="na">type</span><span class="p">:</span> <span class="nx">DATA_GRID_COLUMN_TYPES</span><span class="p">.</span><span class="nx">string</span><span class="p">,</span>
+    <span class="na">centered</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="na">headerCellStyle</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">color</span><span class="p">:</span> <span class="s1">'green'</span><span class="p">,</span>
+      <span class="na">flex</span><span class="p">:</span> <span class="s1">'0 1 100px'</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="na">bodyCellStyle</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">color</span><span class="p">:</span> <span class="s1">'green'</span><span class="p">,</span>
+      <span class="na">flex</span><span class="p">:</span> <span class="s1">'0 1 100px'</span><span class="p">,</span>
+    <span class="p">},</span>
+  <span class="p">},</span>
+<span class="p">];</span>
+</code></pre>
+<p>Send as object. headerCellStyle for header cell. bodyCellStyle for body cell. Css is limited here. Flex can be send also inside this object.</p>
+
+<p><aside class="notice">
+When using css headerCellStyle and bodyCellStyle same flex needs to be used. So either send flex as one property (it will be applied to both header cell and body cell)
+or use them inside object for each property.
+You can also send centered as boolean and it will justify content to center
+ </aside></p>
 
       </div>
       <div class="dark-box">
